@@ -1,18 +1,17 @@
-<<<<<<< HEAD
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         less: {
-            development: {
-                files: {
-                    'dev/styles/main.css': 'scr/styles/main.less'
+            development:{
+                files:{
+                    'dev/styles/main.css':'src/styles/main.lessnpm '
                 }
             },
-            production: {
-                options: {
+            production:{
+                options:{
                     compress: true,
                 },
-                files: {
+                files:{
                     'dist/styles/main.min.css': 'src/styles/main.less'
                 }
             }
@@ -23,7 +22,7 @@ module.exports = function (grunt) {
                 tasks:['less:development']
             },
             html:{
-                files:['src/index.html'],
+                files: ['src/index.html'],
                 tasks:['replace:dev']
             }
         },
@@ -37,7 +36,7 @@ module.exports = function (grunt) {
                         },
                         {
                             match: 'ENDERECO_DO_JS',
-                            replacement:'../src/scripts/main.js'
+                            replacement:'../src/script/main.js'
                         }
                     ]
                 },
@@ -59,7 +58,7 @@ module.exports = function (grunt) {
                         },
                         {
                             match: 'ENDERECO_DO_JS',
-                            replacement:'./scripts/main.min.js'
+                            replacement:'./script/main.min.js'
                         }
                     ]
                 },
@@ -76,18 +75,19 @@ module.exports = function (grunt) {
         htmlmin:{
             dist:{
                 options:{
-                    removeComments:true,
-                    collapsewhitespace:true
+                    removeComments: true,
+                    collapseWhitespace: true
                 },
                 files:{
-                    'prebuild/index.html': 'src/index.html'
+                    'prebuild/index.html':'src/index.html'
                 }
             }
         },
+        clean:['prebuild'],
         uglify:{
             target:{
                 files:{
-                    'dist/scripts/main.min.js': 'src/scripts/main.js'
+                    'dist/script/main.min.js': 'src/script/main.js'
                 }
             }
         }
@@ -97,112 +97,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('build', ['less:production', 'htmlmin.dist', 'replace:dist','uglify']);
-=======
-module.exports = function (grunt) {
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        less: {
-            development: {
-                files: {
-                    'dev/styles/main.css': 'scr/styles/main.less'
-                }
-            },
-            production: {
-                options: {
-                    compress: true,
-                },
-                files: {
-                    'dist/styles/main.min.css': 'src/styles/main.less'
-                }
-            }
-        },
-        watch:{
-            less:{
-                files:['src/styles/**/*.less'],
-                tasks:['less:development']
-            },
-            html:{
-                files:['src/index.html'],
-                tasks:['replace:dev']
-            }
-        },
-        replace:{
-            dev:{
-                options:{
-                    patterns:[
-                        {
-                            match: 'ENDERECO_DO_CSS',
-                            replacement:'./styles/main.css'
-                        },
-                        {
-                            match: 'ENDERECO_DO_JS',
-                            replacement:'../src/scripts/main.js'
-                        }
-                    ]
-                },
-                files:[
-                    {
-                        expand:true,
-                        flatten:true,
-                        src:['src/index.html'],
-                        dest:'dev/'
-                    }
-                ]
-            },
-            dist:{
-                options:{
-                    patterns:[
-                        {
-                            match: 'ENDERECO_DO_CSS',
-                            replacement:'./styles/main.min.css'
-                        },
-                        {
-                            match: 'ENDERECO_DO_JS',
-                            replacement:'./scripts/main.min.js'
-                        }
-                    ]
-                },
-                files:[
-                    {
-                        expand:true,
-                        flatten:true,
-                        src:['prebuild/index.html'],
-                        dest:'dist/'
-                    }
-                ]
-            }
-        },
-        htmlmin:{
-            dist:{
-                options:{
-                    removeComments:true,
-                    collapsewhitespace:true
-                },
-                files:{
-                    'prebuild/index.html': 'src/index.html'
-                }
-            }
-        },
-        uglify:{
-            target:{
-                files:{
-                    'dist/scripts/main.min.js': 'src/scripts/main.js'
-                }
-            }
-        }
-    })
-
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-replace');
-    grunt.loadNpmTasks('grunt-contrib-htmlmin');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-
-    grunt.registerTask('default', ['watch']);
-    grunt.registerTask('build', ['less:production', 'htmlmin.dist', 'replace:dist','uglify']);
->>>>>>> 99f059f0c082a541acb7dc8d36613ff246b268ed
+    grunt.registerTask('build', ['less:production','htmlmin:dist', 'replace:dist','clean', 'uglify']);//build vou usar quanod for subir na vercel
 }
